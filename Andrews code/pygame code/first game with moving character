@@ -1,0 +1,149 @@
+import pygame, sys, random
+from pygame.locals import QUIT
+
+pygame.init()
+
+# Global Varibles
+width = 400  # screen wifth
+height = 300  # screen height
+fps = 20  # frames per seconds
+clock = pygame.time.Clock()  # creates a clock
+gemX = 400  #  # x-cord of gem
+gemy = random.randint(0, 300)  # making it come out in a random place on the y axis
+gemSpeed = 3  # sets the speed of gem
+runningem = False  # loop varible
+score = 0  # makes score 0
+playerX = 40
+playerY = height / 4
+
+# screen
+SCREEN = pygame.display.set_mode((400, 300))
+
+pygame.display.set_caption('lost my coins!')
+pygame.display.set_caption('where we droping ')
+#gem = pygame.image.load("emu.png")
+#gem = pygame.transform.scale(gem,(20,40))
+bg = pygame.image.load("forntnite.webp")  # create varible for background
+player = pygame.image.load("what the.jfif")  # create player varible
+bg = pygame.transform.scale(bg,(400,300))
+player = pygame.transform.scale(player,(100,60))
+x = 0
+y = 0
+running = True  # loop varible
+gemW = 20
+gemH = 8
+p = 1
+
+
+
+
+
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+    SCREEN.blit(bg, (x, y)) # transtrers imgae to scren 
+    #SCREEN.blit(bg, (x, y)) # transtrers imgae to scren 
+    SCREEN.blit(bg, (width+x,0)) # makes thee background move on the x axis 
+    # chekc if it moves past the width
+    if (x==- width):
+      SCREEN.blit(bg,(width+x,y)) # moving the background 
+      x = 0
+    x -= 10
+    SCREEN.blit(player,(playerX,playerY)) # showing the player 
+  
+    scroreText = "score:" + str(score) # printing the score 
+    my_font = pygame.font.SysFont("aeiral", 16) # choosing what the score looks like 
+    scroreTexxt = my_font.render(scroreText,1,"black") # showing the text on the screen
+    SCREEN.blit(scroreTexxt,(10,10))
+    #SCREEN.blit(gem,(gemX,gemy))
+      
+    #SCREEN.blit(pygame.transform.scale(player,(30,40)),playerX,playery) # transter player to scren and scales it to desired dimetions
+    keysPressed = pygame.key.get_pressed() # varible hold the key pressed by user 
+    if keysPressed[pygame.K_UP]: # moving the player if they press the arrow keys 
+      playerY -=3
+
+    if keysPressed[pygame.K_DOWN]:
+      playerY +=3
+    if keysPressed[pygame.K_LEFT]:
+      playerX -= 3
+    if keysPressed[pygame.K_RIGHT]:
+      playerX +=3
+    # check the player poiton w.r.t the screen 
+    if playerY <= 0: # if player is at or under bottom of screen 
+      playerY = 0
+    if playerY >= 300:
+      playerY = 5
+    if playerX <= 0: # if player is at or under bottom of screen they go back up 
+      playerX = 0
+    if playerX >= 350:
+      playerX = 5
+
+    if runningem == False:
+      gemchance = random.randint(1,width-100) # gem appers randomly 
+      gemY = random.randint(10,height-100) # random gemY 
+      gemX = width
+    else:
+      gemchance == 1000
+      
+    if gemchance == 1: # draw green gem at x and y
+     
+      spacegem = pygame.draw.rect(SCREEN, (225,200,40),pygame.Rect(gemX,gemY,gemH,gemW))
+      # every time gem is drawn reset loop vartible 
+      runningem = True
+      gemX -= gemSpeed
+    # if alien touches gem gem goes by by 
+    if gemX<= playerX +40 and gemX >= playerX-20 and gemY >= playerY - 40 and gemY <= playerY + 40:
+      runningem = False
+      score += p # all for the socre and printing of it
+      scroreText = "score:" + str(score)
+      my_font = pygame.font.SysFont("aeiral", 16)
+      scroreTexxt = my_font.render(scroreText,1,"black")
+      SCREEN.blit(scroreTexxt,(100,100))
+      print("score: " + str(score))
+      
+    if gemX <= 0:
+      runningem = False
+    if score == 0:
+      fps = 20 # making the frames low 
+      gemSpeed = 3
+    if score == 4:
+      fps = 60 # makoin
+      gemSpeed = 6
+    if score == 5 and 20 and 35 and 50 and 65 and 80:
+      gemSpeed = 1
+      gemH = 80
+      gemW = 100
+      p = 10
+      gemSpeed = 1
+    if score == 4:
+      p = 1
+      gemSpeed = 5
+      gemH = 8
+      gemW = 20
+    if score == 15:
+      p = 1
+      gemSpeed = 5
+      gemH = 8
+      gemW = 20
+    if score == 31:
+      p = 1
+      gemSpeed = 5
+      gemH = 8
+      gemW = 20
+    if score == 41:
+      p = 1
+      gemSpeed = 5
+      gemH = 8
+      gemW = 20
+      
+      
+      
+      
+
+
+    pygame.display.update()
+    clock.tick(fps)
+
+pygame.quit()
