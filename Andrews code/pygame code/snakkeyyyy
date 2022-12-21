@@ -1,0 +1,102 @@
+'''
+Desc:snakeyy is an adaptation of classic Snakegame 
+  create Start up Screen for thre wormz Game 
+Name: AJ
+Date: 12/19/22
+Ver:1.0
+'''
+import pygame, sys, random
+
+from pygame.locals import   * #QUIT Imports all functions from pygame 
+ 
+# global vars
+win = pygame.display.set_mode((400, 300)) # setting the screen dimentions to a name
+FPS = 30
+
+winheight = 480
+winwidth = 620
+cellsize = 20
+
+# use assert keyword to check if the cell hieght and width collapse
+assert winheight  % cellsize == 0, "Screen height must be a multiple of your cell size"
+assert winwidth  % cellsize == 0, "Screen width must be a multiple of your cell size"
+
+cellwidth = int(winwidth / cellsize)
+cellheight = int(winheight / cellsize)
+
+# color constants 
+#               R     G    B
+white =        (255, 255, 255)
+black =        (0, 0, 0)
+red =        (255, 0, 0)
+green =      (0, 255, 0)
+darkgreen =   (0, 204, 25)
+blue =        (0, 0, 255)
+darkgray =    (40,40,40)
+bgcolor = black
+
+
+# key movements
+
+
+UP = "up"
+DOWN = "down"
+LEFT = "left"
+RIGHT = "right"
+
+HEAD = 0 # Worrrmm's head 
+# create function for start main game 
+def main():
+  global FPSCLOCK, DISP, BASEFONT
+  print("in main function")
+  FPSCLOCK = pygame.time.Clock()
+  DISP = pygame.display.set_mode((winheight,winwidth))
+  BASEFONT = pygame.font.Font("freesansbold.ttf",18)
+  pygame.display.set_caption("SNAKEYY 1.0")
+  showStartwin() # call show startscr functoin to start main window 
+
+
+# create a function to run startup Screen 
+def showStartwin():
+  titlefont = pygame.font.Font("freesansbold.ttf",100)
+  titleScr1 = titlefont.render("SNAKEYY", True,white, blue)
+  titleScr1 = titlefont.render("SNAKEYY", True,green)
+
+   # initalize thre angle for te frame/screen moevemnts 
+  angle1 = 0
+  angle2 = 0
+  # run the startup screen indefintely until user presses a key 
+  while True:
+    DISP.fill(bgcolor)
+    # draw border around win and cetner it 
+    rotatedScr1 = pygame.transform.rotate(titleScr1,angle1)
+
+    # draw a border around Scr-1 and center it 
+    rotatedFrame1 = rotatedScr1.get_rect()
+    rotatedFrame1.center = (winwidth/2, winheight)
+
+    # trandgfer the screen onto Canvas 
+    DISP.blit(rotatedScr1, rotatedFrame1)
+
+    pygame.display.update()
+    FPSCLOCK.tick()
+    angle1 += 15
+
+    # rotate the screen 
+
+
+pygame.init() # stars pygame 
+pygame.display.set_caption('snakeyy 1.0')
+while True:
+    pygame.init()
+    print("calling main()")
+    main()
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+    pygame.display.update()
+
+
+if __name == "__main__":
+  main()
